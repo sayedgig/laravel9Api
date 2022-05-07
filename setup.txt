@@ -110,3 +110,33 @@ github
 
 https://www.sachinsf.com/how-to-push-the-code-from-vs-code-to-github/#:~:text=To%20push%20the%20code%20to,push%20your%20folder%20to%20Github.
 
+
+
+https://www.youtube.com/watch?v=KfaZRBdN2as&t=10s
+
+Step - 1
+php artisan make:model Company -m
+protected $fillable = ['title', 'description'];
+
+php artisan migrate
+Step - 2
+php artisan make:controller Api\\CompanyController --api --resource --model=Company
+Step - 3
+
+Route::apiResource('companies', CompanyController::class);
+
+step4 - 4
+
+php artisan make:resource CompanyResource
+Step - 5
+
+php artisan make:request CompanyRequest
+
+php artisan route:list
+
+  GET|HEAD        api/companies ................................................. companies.index › Api\CompanyController@index
+  POST            api/companies ................................................. companies.store › Api\CompanyController@store
+  GET|HEAD        api/companies/{company} ......................................... companies.show › Api\CompanyController@show
+  PUT|PATCH       api/companies/{company} ..................................... companies.update › Api\CompanyController@update
+  DELETE          api/companies/{company} ................................... companies.destroy › Api\CompanyController@destroy
+  GET|HEAD
