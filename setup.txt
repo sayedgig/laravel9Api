@@ -1,0 +1,112 @@
+
+https://techtoolindia.com/how-to-make-rest-api-in-laravel-9
+
+https://www.youtube.com/channel/UCOy6o08Yn9DtXMKqxhD9ivA/videos
+
+
+composer create-project laravel/laravel first-laravel9
+
+php artisan --version
+
+extension_dir = "C:\xampp\php\ext"
+extension=php_sqlsrv_81_ts.dll
+extension=php_pdo_sqlsrv_81_ts.dll
+
+
+DB_CONNECTION=sqlsrv
+DB_HOST=DESKTOP-UQ27NDV
+DB_PORT=null
+DB_DATABASE=laravel9
+DB_USERNAME=sa
+DB_PASSWORD=P@ssw0rd
+
+Step - 1
+php artisan make:model Post -m
+
+$table->string('title');
+$table->longText('description');
+
+protected $fillable = ['title', 'description'];
+
+php artisan migrate
+
+Step - 2
+php artisan make:controller Api\\PostController --model=Post
+
+public function index()
+    {
+        $posts = Post::all();
+
+        return response()->json([
+            'status' => true,
+            'posts' => $posts
+        ]);
+    }
+
+public function store(Request $request)
+    {
+        $post = Post::create($request->all());
+
+        return response()->json([
+            'status' => true,
+            'message' => "Post Created successfully!",
+            'post' => $post
+        ], 200);
+    }
+
+
+public function update(Request $request, Post $post)
+    {
+        $post->update($request->all());
+
+        return response()->json([
+            'status' => true,
+            'message' => "Post Updated successfully!",
+            'post' => $post
+        ], 200);
+    }
+
+ public function destroy(Post $post)
+    {
+        $post->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Post Deleted successfully!",
+        ], 200);
+    }
+
+Step - 3
+
+php artisan make:request StorePostRequest
+
+public function authorize()
+    {
+        return true;
+    }
+
+    public function rules()
+    {
+        return [
+            "title" => "required|max:70",
+            "description" => "required"
+        ];
+    }
+
+Step - 4
+
+Route::apiResource('posts', PostController::class);
+
+php artisan route:list
+
+GET|HEAD        api/posts .......posts.index › Api\PostController@index
+  POST            api/posts .....posts.store › Api\PostController@store
+  PUT|PATCH       api/posts/{post} ............. posts.update › Api\PostController@update
+   DELETE          api/posts/{post} ............ posts.destroy › Api\PostController@destroy
+
+
+
+github
+
+https://www.sachinsf.com/how-to-push-the-code-from-vs-code-to-github/#:~:text=To%20push%20the%20code%20to,push%20your%20folder%20to%20Github.
+
